@@ -1,0 +1,10 @@
+samplics==0.4.22
+pandas==2.2.2
+matplotlib==3.8.4
+markdown==3.4.1
+fpdf==1.7.2
+streamlit-aggrid==1.0.5
+docx==0.2.4
+
+
+
