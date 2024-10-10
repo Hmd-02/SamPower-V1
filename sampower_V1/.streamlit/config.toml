@@ -2,8 +2,8 @@
 showSidebarNavigation = true
 
 [theme]
-primaryColor="#ff0000"
-backgroundColor="#2f2c2c"
-secondaryBackgroundColor="#071d4c"
+backgroundColor="#201d1d"
+secondaryBackgroundColor="#132c62"
 textColor="#ffffff"
 font="serif"
+

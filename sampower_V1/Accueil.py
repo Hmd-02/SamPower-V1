@@ -41,7 +41,7 @@ if 'type' not in st.session_state:
 
 
 # Chemin vers le fichier local (manuel d'utilisation)
-file_path = "./files/Manuel.docx"
+file_path = "sampower_V1/files/Manuel.docx"
 
 # Ouvrir et lire le fichier en mode binaire
 with open(file_path, "rb") as file:
@@ -70,34 +70,24 @@ def Validation():
                 st.info("Veuillez télécharger un fichier .dta ou .xlsx ou .csv.")
                 st.session_state.uploaded = st.file_uploader('Choix de la base de sondage', type=["csv", "xlsx", "dta"], label_visibility='collapsed')
 
-                if st.button("Charger la base par défaut"):
-                    st.session_state.clear()
-                    st.session_state.uploaded = "./files/base_ehcvm2.dta"
-                    st.session_state.df = pd.read_stata(st.session_state.uploaded)
+                # Vérifier si un fichier a été téléchargé
+                if st.session_state.uploaded is not None:
+                    # Lire la base de données Stata avec pandas
+                    if st.session_state.uploaded.name.endswith('.csv'):
+                        st.session_state.df = pd.read_csv(st.session_state.uploaded, sep = ';')
+                    elif st.session_state.uploaded.name.endswith('.xlsx'):
+                        st.session_state.df = pd.read_excel(st.session_state.uploaded)
+                    elif st.session_state.uploaded.name.endswith('.dta'):
+                        st.session_state.df = pd.read_stata(st.session_state.uploaded)
+                        
                     # Afficher un message de confirmation
                     st.success("Base de données chargée avec succès !")
+                
                     # Afficher le DataFrame avec Streamlit
                     st.session_state.taillePop = len(st.session_state.df)
 
-                else:
-                    # Vérifier si un fichier a été téléchargé
-                    if st.session_state.uploaded is not None:
-                        # Lire la base de données Stata avec pandas
-                        if st.session_state.uploaded.name.endswith('.csv'):
-                            st.session_state.df = pd.read_csv(st.session_state.uploaded, sep = ';')
-                        elif st.session_state.uploaded.name.endswith('.xlsx'):
-                            st.session_state.df = pd.read_excel(st.session_state.uploaded)
-                        elif st.session_state.uploaded.name.endswith('.dta'):
-                            st.session_state.df = pd.read_stata(st.session_state.uploaded)
-                            
-                        # Afficher un message de confirmation
-                        st.success("Base de données chargée avec succès !")
-                    
-                        # Afficher le DataFrame avec Streamlit
-                        st.session_state.taillePop = len(st.session_state.df)
-
-                    #else:
-                    #    st.info("Veuillez télécharger un fichier .dta ou .xlsx ou .csv.")
+                #else:
+                #    st.info("Veuillez télécharger un fichier .dta ou .xlsx ou .csv.")
     with col2:
         type = st.radio('Plan de sondage', choix,horizontal = True,index=None)
         if st.button("Valider"):
@@ -117,8 +107,8 @@ resultat_page = st.Page("Pages/Resultat.py", title="Résultats",icon=":material/
 stratifie_page = st.Page("Pages/Stratifie.py", title= 'Paramètres', default=(type == "Stratifie"))
 
 compte = [deconnexion_page]
-page_simple = [simple_page, resultat_page]
-page_stratifie = [stratifie_page, resultat_page]
+page_simple = [simple_page]
+page_stratifie = [stratifie_page]
 
 page_dict = {}
 
