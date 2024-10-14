@@ -13,6 +13,7 @@ streamlit==1.39.0
 streamlit-aggrid==1.0.5
 streamlit-option-menu==0.3.13
 sympy==1.12
+XlsxWriter==3.2.0
 
 
 
